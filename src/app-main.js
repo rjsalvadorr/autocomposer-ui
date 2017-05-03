@@ -315,7 +315,7 @@ class AutoComposerApp extends React.Component {
             <div className="panel-row">
               <p id="main-blurb">
                 This is a prototype for a program that automatically writes music. Click the <i className="fa fa-question"></i> button to get started.
-                For more info, check out the <a href="https://github.com/rjsalvadorr/autocomposer-melody/wiki" target="_blank">project wiki</a> and <a href="https://github.com/rjsalvadorr/autocomposer-melody" target="_blank">repository</a>.
+                For more info, check out the <a href="https://github.com/rjsalvadorr/autocomposer-js/wiki" target="_blank">project wiki</a> and <a href="https://github.com/rjsalvadorr/autocomposer-js" target="_blank">repository</a>.
               </p>
             </div>
 
