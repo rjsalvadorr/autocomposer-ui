@@ -2,7 +2,7 @@
 This is a React web app that uses [AutoComposerJS](https://github.com/rjsalvadorr/autocomposer-js).
 
 ## Overview
-The AutoComposerJS creates small musical snippets that conform to the _best practices_ of Western music theory. In its current form, it does this by writing a simple melody over a chord progression. It also has a few more tricks:
+AutoComposerJS creates small musical snippets that conform to the _best practices_ of Western music theory. In its current form, it does this by writing a simple melody over a chord progression. It also has a few more tricks:
 
 * Writes basic accompaniment for melodies.
 * Can present generated melodies in the following formats:
