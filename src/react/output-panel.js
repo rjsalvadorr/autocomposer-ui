@@ -1,7 +1,6 @@
 var React = require('react');
 
-var AutoComposerMelody = require('../autocomposer-melody');
-var AcMelody = new AutoComposerMelody.AutoComposerMelody();
+var AcMelody = require('../../node_modules/autocomposer-js/src/browser-build.js').melody;
 
 var MelodyRow = require('./melody-row');
 var AcButton = require('./ac-button');
@@ -51,7 +50,7 @@ class OutputPanel extends React.Component {
     for(var i = 0; i < melodyUnitList.length; i++) {
       melodyString = melodyUnitList[i].melodyNotes.join(",");
       accompanimentString = AcMelody.buildSimpleAccompaniment(melodyUnitList[i]).join(",");
-      basslineString = AcMelody.getBasicBassLine(melodyUnitList[i]);
+      basslineString = AcMelody.buildBasicBassLine(melodyUnitList[i]);
 
       arrPayload = [melodyString, accompanimentString, basslineString];
       payloadString = arrPayload.join(";");

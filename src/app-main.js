@@ -2,14 +2,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const moment = require('moment');
 
-var AutoComposerLogic = require('./autocomposer-logic');
-var AcLogic = new AutoComposerLogic.AutoComposerLogic();
-
-var AutoComposerMelody = require('./autocomposer-melody');
-var AcMelody = new AutoComposerMelody.AutoComposerMelody();
-
-var acMidi = require('./autocomposer-midi');
-var AcMidi = new acMidi.AutoComposerMidi();
+var AutoComposer = require('../node_modules/autocomposer-js/src/browser-build.js');
 
 var AcButton = require('./react/ac-button');
 var AcToggleButton = require('./react/ac-toggle-button');
@@ -22,18 +15,16 @@ var OutputPanel = require('./react/output-panel');
 var ControlPanel = require('./react/control-panel');
 
 
-
 function AcInputException(message) {
    this.message = message;
    this.name = 'AcInputException';
 }
 
 
-
 /**
 * The core React component for the web app.
 */
-class AutoComposer extends React.Component {
+class AutoComposerApp extends React.Component {
   constructor(props) {
     super(props);
 
@@ -43,7 +34,7 @@ class AutoComposer extends React.Component {
     this.store = {
       melodies: [],
       chordProgressionClean: "",
-      chordProgressionPlaceholder: AcLogic.INITIAL_PROGRESSION,
+      chordProgressionPlaceholder: "example: Gm E C D",
       RESPONSIVE_BREAKPOINT_PHONE: 500,
       RESPONSIVE_BREAKPOINT_TABLET: 768
     };
@@ -231,7 +222,7 @@ class AutoComposer extends React.Component {
       }
 
       chordProgression.forEach(function(currentChordInput) {
-        if(!AcLogic.isValidText(currentChordInput)) {
+        if(!AutoComposer.logic.isValidText(currentChordInput)) {
           throw new AcInputException('Chord input \'' + currentChordInput + '\' is not formatted properly! You should check the chord dictionary in the Help! section.');
         }
       });
@@ -259,7 +250,7 @@ class AutoComposer extends React.Component {
   */
   playMelody(event) {
     if(this.store.melodies.length > 0) {
-      AcMidi.playMelodyWithAccompaniment(this.store.melodies[0], this.store.melodies[1], this.store.melodies[2]);
+      AutoComposer.midiPlayer.playMelodyWithAccompaniment(this.store.melodies[0], this.store.melodies[1], this.store.melodies[2]);
     }
   }
 
@@ -269,7 +260,7 @@ class AutoComposer extends React.Component {
   */
   playMelodySolo(event) {
     if(this.store.melodies.length > 0) {
-      AcMidi.playMelodySolo(this.store.melodies[0]);
+      AutoComposer.midiPlayer.playMelodySolo(this.store.melodies[0]);
     }
   }
 
@@ -278,7 +269,7 @@ class AutoComposer extends React.Component {
   * @param {Object} event - React event
   */
   stopMusic(event) {
-    AcMidi.stopPlayback();
+    AutoComposer.midiPlayer.stopPlayback();
   }
 
   /**
@@ -288,7 +279,7 @@ class AutoComposer extends React.Component {
   downloadMidi(event) {
     if(this.store.melodies.length > 0) {
       //download MIDI file
-      var dataString = AcMidi.buildMelodyMidiWithAccompaniment(this.store.melodies[0], this.store.melodies[1], this.store.melodies[2]);
+      var dataString = AutoComposer.midiWriter.buildMelodyMidiWithAccompaniment(this.store.melodies[0], this.store.melodies[1], this.store.melodies[2]);
       var timestamp = moment().format("YYMMDDHHmmss");
       var fileName = "autocomposer_" + timestamp + "_" + this.state.chordProgressionRaw.replace(/\s+/g, "-");
       download(dataString, fileName, "audio/midi");
@@ -375,4 +366,4 @@ class AutoComposer extends React.Component {
   }
 }
 
-ReactDOM.render(<AutoComposer />, document.getElementById('react-root'));
+ReactDOM.render(<AutoComposerApp />, document.getElementById('react-root'));

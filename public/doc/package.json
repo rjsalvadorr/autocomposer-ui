@@ -1,35 +1,26 @@
 {
-  "name": "autocomposer-melody",
+  "name": "autocomposer-us",
   "version": "0.0.1",
   "description": "A web app that displays simple musical melodies based on a chord progression",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rjsalvadorr/autocomposer-melody.git"
+    "url": "https://github.com/rjsalvadorr/autocomposer-ui.git"
   },
   "scripts": {
     "test": "mocha && esdoc",
     "compile-css": "stylus src/css/style.styl -o public/style.css",
-    "build-sandbox": "browserify public/test/raw.js -o public/test/index.js",
-    "build-dev": "browserify src/app-main.js -o dist/autocomposer-melody.js -t [ babelify --presets [ react ] ]",
-    "build-prod": "browserify src/app-main.js -t [ babelify --presets [ react ] ] | uglifyjs -o dist/autocomposer-melody.js",
-    "build-public": "browserify src/app-main.js -t [ babelify --presets [ react ] ] | uglifyjs -o public/autocomposer-melody.js && npm run compile-css",
-    "build-all": "npm test && npm run build-prod && npm run build-public && npm run build-sandbox"
+    "build-public": "browserify src/app-main.js -t [ babelify --presets [ react ] ] | uglifyjs -o public/autocomposer.js && npm run compile-css",
+    "build-all": "npm test && npm run build-public"
   },
   "author": "RJ Salvador",
   "license": "ISC",
   "dependencies": {
+    "autocomposer-js": "*",
     "jquery": "^3.2.1",
-    "midi-player-js": "^1.1.1",
-    "midi-writer-js": "^1.4.7",
     "moment": "^2.18.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "soundfont-player": "^0.10.5",
-    "tonal": "^0.69.5",
-    "tonal-chord": "^0.69.5",
-    "tonal-note": "^0.69.5",
-    "tonal-range": "^0.69.5",
     "underscore": "^1.8.3",
     "vexflow": "^1.2.83"
   },

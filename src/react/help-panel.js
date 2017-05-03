@@ -1,6 +1,6 @@
 var React = require('react');
-var AutoComposerLogic = require('../autocomposer-logic');
-var AcLogic = new AutoComposerLogic.AutoComposerLogic();
+var AcLogic = require('../../node_modules/autocomposer-js/src/browser-build.js').logic;
+var AcConstants = require('../../node_modules/autocomposer-js/src/browser-build.js').constants;
 
 /**
 * React Component representing the Help/Info Panel
@@ -36,15 +36,41 @@ class HelpPanel extends React.Component {
     this.props.closeFunction("showHelp", false);
   }
 
+  buildInstrumentList() {
+    var instrList = [], instrListItem, currentInstr;
+
+    for(var instrumentRole in AcConstants.instrumentData) {
+      currentInstr = AcConstants.instrumentData[instrumentRole];
+      if(typeof currentInstr !== "function") {
+        instrListItem = (
+          <li>
+            Name: <code className="ac-parameter">{currentInstr.name}</code><br/>
+            Role: <code className="ac-parameter">{currentInstr.role}</code><br/>
+            MIDI instrument code: <code className="ac-parameter">{currentInstr.midiInstrumentCode + 1}</code>
+          </li>
+        );
+        instrList.push(instrListItem);
+      }
+    }
+
+    return(
+      <ul>
+        {instrList}
+      </ul>
+    )
+  }
+
   render() {
-    var lowestPitch = AcLogic.DEFAULT_LOWER_LIMIT;
-    var highestPitch = AcLogic.DEFAULT_UPPER_LIMIT;
+    var lowestPitch = AcConstants.DEFAULT_LOWER_LIMIT;
+    var highestPitch = AcConstants.DEFAULT_UPPER_LIMIT;
 
-    var lowestPitchAccomp = AcLogic.ACCOMPANIMENT_LOWER_LIMIT;
-    var highestPitchAccomp = AcLogic.ACCOMPANIMENT_UPPER_LIMIT;
+    var lowestPitchAccomp = AcConstants.ACCOMPANIMENT_LOWER_LIMIT;
+    var highestPitchAccomp = AcConstants.ACCOMPANIMENT_UPPER_LIMIT;
 
-    var lowestPitchBass = AcLogic.BASS_LOWER_LIMIT;
-    var highestPitchBass = AcLogic.BASS_UPPER_LIMIT;
+    var lowestPitchBass = AcConstants.BASS_LOWER_LIMIT;
+    var highestPitchBass = AcConstants.BASS_UPPER_LIMIT;
+
+    var melodyLimit = AcConstants.NUM_MELODIES_LIMIT;
 
     if(this.props.isShown) {
       return (
@@ -79,23 +105,19 @@ class HelpPanel extends React.Component {
 
             <h2>Technical Info</h2>
             <ul>
-              <li>Smoothness = the distance between notes in the melody (in semitones), all added together</li>
-              <li>Range = distance between the lowest note and the highest note (in semitones)</li>
+              <li><strong>Smoothness</strong>: the distance between notes in the melody (in semitones), all added together</li>
+              <li><strong>Range</strong>: distance between the lowest note and the highest note (in semitones)</li>
               <li>The MIDI instruments for the voices are:
-                <ul>
-                  <li>Violin</li>
-                  <li>Piano</li>
-                  <li>Bass (plucked)</li>
-                </ul>
+                {this.buildInstrumentList()}
               </li>
-              <li>Melody range is {lowestPitch} to {highestPitch}</li>
-              <li>Accompaniment range is {lowestPitchAccomp} to {highestPitch}</li>
-              <li>Bass range is {lowestPitchBass} to {highestPitchBass}</li>
+              <li>Melody range: <code className="ac-parameter">{lowestPitch}</code> to <code className="ac-parameter">{highestPitch}</code></li>
+              <li>Accompaniment range: <code className="ac-parameter">{lowestPitchAccomp}</code> to <code className="ac-parameter">{highestPitch}</code></li>
+              <li>Bass range: <code className="ac-parameter">{lowestPitchBass}</code> to <code className="ac-parameter">{highestPitchBass}</code></li>
             </ul>
 
             <h4>Melodies are filtered/sorted by a few rules:</h4>
             <ul>
-              <li>Only the 100 smoothest melodies are shown</li>
+              <li>Only the <code className="ac-parameter">{melodyLimit}</code> smoothest melodies are shown</li>
               <li>Range must be no greater than one octave</li>
               <li>Only one repetition occurs in the melody</li>
             </ul>

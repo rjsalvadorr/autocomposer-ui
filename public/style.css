@@ -200,6 +200,11 @@ p#main-blurb {
   color: #e88;
   font-weight: bold;
 }
+code.ac-parameter {
+  font-weight: bold;
+  background-color: #ccc;
+  padding: 0 4px;
+}
 body {
   background-color: #ddd;
   color: #222;
