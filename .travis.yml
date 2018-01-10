@@ -7,7 +7,6 @@ cache:
     - node_modules
 script:
 - "npm test"
-- "npm run lint"
 before_deploy:
 - "npm run build-public"
 - "npm run compile-css"
