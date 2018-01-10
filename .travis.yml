@@ -10,7 +10,6 @@ script:
 before_deploy:
 - "npm i -g uglifyjs"
 - "npm run build-public"
-- "npm run compile-css"
 deploy:
   provider: pages
   local_dir: "public"
